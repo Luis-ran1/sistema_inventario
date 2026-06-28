@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Categoria;
+use App\Models\Compra;
 
-class CategoriaController extends Controller
+class CompraController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Categoria::all();
+        return Compra::with('proveedor', 'detalleCompras')->get();
     }
 
     /**
@@ -21,8 +21,9 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $categoria = Categoria::create($request->all());
-        return response()->json($categoria,201);
+        $compra = Compra::create($request->all());
+
+        return response()->json($compra, 201);
     }
 
     /**
@@ -30,14 +31,15 @@ class CategoriaController extends Controller
      */
     public function show(string $id)
     {
-        $categoria = Categoria::find($id);
+        $compra = Compra::with('proveedor', 'detalleCompras')->find($id);
 
-        if(!$categoria){
+        if (!$compra) {
             return response()->json([
-                'message' => 'Categoria no encontrada'
-            ],404);
+                'message' => 'Compra no encontrada'
+            ], 404);
         }
-        return response()->json($categoria);
+
+        return response()->json($compra);
     }
 
     /**
@@ -45,17 +47,17 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $categoria = Categoria::find($id);
+        $compra = Compra::find($id);
 
-        if (!$categoria) {
+        if (!$compra) {
             return response()->json([
-                'message' => 'Categoría no encontrada'
+                'message' => 'Compra no encontrada'
             ], 404);
         }
 
-        $categoria->update($request->all());
+        $compra->update($request->all());
 
-        return response()->json($categoria);
+        return response()->json($compra);
     }
 
     /**
@@ -63,18 +65,18 @@ class CategoriaController extends Controller
      */
     public function destroy(string $id)
     {
-        $categoria = Categoria::find($id);
+        $compra = Compra::find($id);
 
-        if (!$categoria) {
+        if (!$compra) {
             return response()->json([
-                'message' => 'Categoría no encontrada'
+                'message' => 'Compra no encontrada'
             ], 404);
         }
 
-        $categoria->delete();
+        $compra->delete();
 
         return response()->json([
-            'message' => 'Categoría eliminada correctamente'
+            'message' => 'Compra eliminada correctamente'
         ]);
     }
 }

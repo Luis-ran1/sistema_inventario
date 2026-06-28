@@ -30,7 +30,15 @@ class ProductoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $producto = Producto::with('categoria')->find($id);
+
+        if (!$producto) {
+            return response()->json([
+                'message' => 'Producto no encontrado'
+            ], 404);
+        }
+
+        return response()->json($producto);
     }
 
     /**
@@ -38,7 +46,17 @@ class ProductoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $producto = Producto::find($id);
+
+        if (!$producto) {
+            return response()->json([
+                'message' => 'Producto no encontrado'
+            ], 404);
+        }
+
+        $producto->update($request->all());
+
+        return response()->json($producto);
     }
 
     /**
@@ -46,6 +64,18 @@ class ProductoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+       $producto = Producto::find($id);
+
+        if (!$producto) {
+            return response()->json([
+                'message' => 'Producto no encontrado'
+            ], 404);
+        }
+
+        $producto->delete();
+
+        return response()->json([
+            'message' => 'Producto eliminado correctamente'
+        ]);
     }
 }

@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Categoria;
+use App\Models\Proveedor;
 
-class CategoriaController extends Controller
+class ProveedorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Categoria::all();
+        return Proveedor::all();
     }
 
     /**
@@ -21,8 +21,9 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $categoria = Categoria::create($request->all());
-        return response()->json($categoria,201);
+        $proveedor = Proveedor::create($request->all());
+
+        return response()->json($proveedor, 201);
     }
 
     /**
@@ -30,14 +31,15 @@ class CategoriaController extends Controller
      */
     public function show(string $id)
     {
-        $categoria = Categoria::find($id);
+        $proveedor = Proveedor::find($id);
 
-        if(!$categoria){
+        if (!$proveedor) {
             return response()->json([
-                'message' => 'Categoria no encontrada'
-            ],404);
+                'message' => 'Proveedor no encontrado'
+            ], 404);
         }
-        return response()->json($categoria);
+
+        return response()->json($proveedor);
     }
 
     /**
@@ -45,17 +47,17 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $categoria = Categoria::find($id);
+        $proveedor = Proveedor::find($id);
 
-        if (!$categoria) {
+        if (!$proveedor) {
             return response()->json([
-                'message' => 'Categoría no encontrada'
+                'message' => 'Proveedor no encontrado'
             ], 404);
         }
 
-        $categoria->update($request->all());
+        $proveedor->update($request->all());
 
-        return response()->json($categoria);
+        return response()->json($proveedor);
     }
 
     /**
@@ -63,18 +65,18 @@ class CategoriaController extends Controller
      */
     public function destroy(string $id)
     {
-        $categoria = Categoria::find($id);
+        $proveedor = Proveedor::find($id);
 
-        if (!$categoria) {
+        if (!$proveedor) {
             return response()->json([
-                'message' => 'Categoría no encontrada'
+                'message' => 'Proveedor no encontrado'
             ], 404);
         }
 
-        $categoria->delete();
+        $proveedor->delete();
 
         return response()->json([
-            'message' => 'Categoría eliminada correctamente'
+            'message' => 'Proveedor eliminado correctamente'
         ]);
     }
 }

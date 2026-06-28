@@ -15,6 +15,18 @@ class Producto extends Model
         'nombre',
         'descripcion',
         'precio',
-        'stock'
+        'stock',
+        'categoria_id'
     ];
+    //Un producto pertenece a una categoria
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
+    }
+
+    //Un producto puede estar en muchos detalles de compra 
+    public function detalleCompras()
+    {
+        return $this->hasMany(detalleCompra::class);
+    }
 }
